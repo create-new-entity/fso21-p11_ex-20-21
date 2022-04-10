@@ -27,6 +27,8 @@ app.use(express.json());
 if(process.env.NODE_ENV === 'test') {
   app.use('/api/testing', testingRouter);
 }
+
+app.use(express.static('build'));
 app.use('/api/miscellaneous', miscellaneousRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/blogs', middleware.tokenExtractor, middleware.userExtractor, blogsRouter);
