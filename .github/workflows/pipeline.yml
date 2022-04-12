@@ -1,4 +1,4 @@
-name: Simple Pipeline
+name: ex_20_21
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - ejected
 
 jobs:
-  hello_world_job:
+  ex_20_21:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
