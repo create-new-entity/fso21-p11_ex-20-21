@@ -54,7 +54,7 @@ const errorHandler = (error, request, response, next) => {
     || error.name === ErrorNames.PasswordMissingError
     || error.name === ErrorNames.ShortUsernameError
     || error.name === ErrorNames.ShortPasswordError) {
-      return response.status(400).json({ error: error.message })
+    return response.status(400).json({ error: error.message })
   }
   else if(
     error.name === ErrorNames.IncorrectUsername

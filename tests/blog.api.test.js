@@ -15,18 +15,17 @@ beforeEach(async () => {
 
 
 describe('API returns data in correct amount and in correct format.', () => {
-  
+
   test('API return correct amount of data', async () => {
     const blogs = await helpers.createAUserAndInitializeDB(api);
     expect(blogs.length).toBe(6);
   }, TIMEOUT);
 
   test('API returns data in JSON format', async () => {
-    let response;
 
     await helpers.createAUserAndInitializeDB(api);
 
-    response = await api
+    await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /json/);
@@ -34,7 +33,7 @@ describe('API returns data in correct amount and in correct format.', () => {
 
   test('id is defined in document', async () => {
     let response;
-    
+
     await helpers.createAUserAndInitializeDB(api);
 
     response = await api.get('/api/blogs');
@@ -44,7 +43,7 @@ describe('API returns data in correct amount and in correct format.', () => {
   test('Adding new blog works', async () => {
     let response;
     const user = await helpers.createADummyUser(api);
-    const { username, id, token } = await helpers.login(api, user);
+    const { token } = await helpers.login(api, user);
     const dummyBlog = dummyStuffs.dummyBlogs[0];
 
     response = await api.get('/api/blogs');
@@ -72,29 +71,28 @@ describe('API returns data in correct amount and in correct format.', () => {
     delete dummyBlog.likes;
     dummyBlog.user = user.id;
 
-    const { username, id, token } = await helpers.login(api, user);
-    
+    const { token } = await helpers.login(api, user);
+
     response = await api
       .post('/api/blogs')
       .send(dummyBlog)
       .set('Authorization',  'bearer ' + token)
       .expect(201);
-  
+
     expect(response.body.likes).toBeDefined();
     expect(response.body.likes).toBe(0);
   }, TIMEOUT);
 
   test('If title is missing POST request returns with 400 status code', async () => {
-    let response;
     const user = await helpers.createADummyUser(api);
 
     const dummyBlog = { ...dummyStuffs.dummyBlog };
     delete dummyBlog.title;
     dummyBlog.user = user.id;
 
-    const { username, id, token } = await helpers.login(api, user);
-    
-    response = await api
+    const { token } = await helpers.login(api, user);
+
+    await api
       .post('/api/blogs')
       .send(dummyBlog)
       .set('Authorization',  'bearer ' + token)
@@ -107,10 +105,10 @@ describe('API returns data in correct amount and in correct format.', () => {
     const dummyBlog = { ...dummyStuffs.dummyBlog };
     delete dummyBlog.url;
     dummyBlog.user = user.id;
-    
-    const { username, id, token } = await helpers.login(api, user);
-  
-    response = await api
+
+    const { token } = await helpers.login(api, user);
+
+    await api
       .post('/api/blogs')
       .send(dummyBlog)
       .set('Authorization',  'bearer ' + token)
@@ -125,18 +123,18 @@ describe('Deletion and Update', () => {
   test('Deleting a blog entry works', async () => {
 
     const dummyBlog = {
-      title: "Node.js – The Past, Present, and Future",
-      author: "Jason Grant",
-      url: "https://sevenpeakssoftware.com/node-js-past-present-future-summary/",
+      title: 'Node.js – The Past, Present, and Future',
+      author: 'Jason Grant',
+      url: 'https://sevenpeakssoftware.com/node-js-past-present-future-summary/',
       likes: 5
     };
 
     let response = await api.get('/api/blogs');
     expect(response.body.map(blog => blog.author)).not.toContain(dummyBlog.author);
-    
+
 
     const user = await helpers.createADummyUser(api);
-    const { username, id, token } = await helpers.login(api, user);
+    const { token } = await helpers.login(api, user);
     response = await api
       .post('/api/blogs')
       .send(dummyBlog)
@@ -146,7 +144,7 @@ describe('Deletion and Update', () => {
 
     response = await api.get('/api/blogs');
     expect(response.body.map(blog => blog.author)).toContain(dummyBlog.author);
-    
+
     await api
       .delete(`/api/blogs/${targetId}`)
       .set('Authorization', `bearer ${token}`)
@@ -159,13 +157,13 @@ describe('Deletion and Update', () => {
 
   test('Updating likes works', async () => {
     const user = await helpers.createADummyUser(api);
-    const { username, id, token } = await helpers.login(api, user);
+    const { token } = await helpers.login(api, user);
 
     let response = await api
       .post('/api/blogs')
       .send(dummyStuffs.dummyBlog)
       .set('Authorization', `bearer ${token}`);
-    
+
     const targetId = response.body.id;
     expect(response.body.likes).toBe(dummyStuffs.dummyBlog.likes);
 
@@ -173,7 +171,7 @@ describe('Deletion and Update', () => {
       .patch(`/api/blogs/${targetId}`)
       .send({ likes: 50 })
       .set('Authorization', `bearer ${token}`);
-    
+
     expect(response.body.likes).toBe(50);
 
     response = await api.get('/api/blogs');
@@ -229,7 +227,7 @@ describe('Authentication tests', () => {
     await api.post('/api/users').send(dummyUser).expect(400);
   });
 
-  test('New User creation works', async () =>{
+  test('New User creation works', async () => {
     let response;
 
     const initialUsernames = await helpers.getAllUsernamesFromDB();
@@ -239,7 +237,7 @@ describe('Authentication tests', () => {
       .post('/api/users')
       .send(dummyStuffs.dummyUsers[0])
       .expect(201);
-    
+
     response = await api.get('/api/users');
     const usernamesInDB = response.body.map(user => user.username);
     expect(usernamesInDB).toContain(dummyStuffs.dummyUsers[0].username);
@@ -258,9 +256,9 @@ describe('Other tests', () => {
   test('Most liked blog works', async () => {
 
     const targetBlog = {
-      title: "Canonical string reduction",
-      author: "Edsger W. Dijkstra",
-      url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
       likes: 12
     };
 
@@ -271,10 +269,10 @@ describe('Other tests', () => {
 
   test('Author that has written most blogs works', async () => {
     const targetAuthor = {
-      author: "Robert C. Martin",
+      author: 'Robert C. Martin',
       blogs: 3
     };
-    
+
     const blogs = await helpers.createAUserAndInitializeDB(api);
     const result = helpers.mostBlogs(blogs);
     expect(result).toEqual(targetAuthor);
@@ -282,7 +280,7 @@ describe('Other tests', () => {
 
   test('Author that has most likes works', async () => {
     const targetAuthor = {
-      author: "Edsger W. Dijkstra",
+      author: 'Edsger W. Dijkstra',
       likes: 17
     };
 

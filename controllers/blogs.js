@@ -39,7 +39,7 @@ blogsRouter.post('/:id/comments', async (req, res, next) => {
 
     const comment = new Comment(newComment);
     const savedComment = await comment.save();
-    
+
     const newComments = blog.comments.concat(savedComment._id);
     await Blog.findByIdAndUpdate({ _id: blogId }, { comments: newComments }, { new: true });
 
@@ -80,14 +80,15 @@ blogsRouter.post('/', async (req, res, next) => {
       res.status(400).end();
       return;
     }
+    // eslint-disable-next-line no-prototype-builtins
     newObj.hasOwnProperty('likes') ? newObj : newObj.likes = 0;
-    
+
     newObj.user = user._id;
     const blog = new Blog(newObj);
     const result = await blog.save();
     const updatedBlogs = user.blogs.concat(result.id);
     const updateConfig = {
-      $set: { 
+      $set: {
         blogs: updatedBlogs
       }
     };
@@ -103,7 +104,7 @@ blogsRouter.delete('/:id', async (req, res, next) => {
   try {
     const user = req.user;
     const targetId = req.params.id;
-    
+
     const blog = await Blog.findOne( { _id: targetId });
     if(!blog) {
       const err = new Error('Blog not found');
@@ -127,7 +128,7 @@ blogsRouter.delete('/:id', async (req, res, next) => {
   }
 });
 
-blogsRouter.patch('/:id', async (req, res, next) => {
+blogsRouter.patch('/:id', async (req, res) => {
   const targetId = req.params.id;
   const newLikes = req.body.likes;
 
@@ -148,7 +149,7 @@ blogsRouter.put('/:id', async (req, res, next) => {
       author: req.body.author,
       title: req.body.title,
       url: req.body.url,
-      comments: req.body.comments?.map(comment => mongoose.Types.ObjectId(comment.id))
+      comments: req.body.comments ? req.body.comments.map(comment => mongoose.Types.ObjectId(comment.id)) : []
     };
 
     const filter = { _id: targetId };

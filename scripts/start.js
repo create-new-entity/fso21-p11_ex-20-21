@@ -57,7 +57,7 @@ if (process.env.HOST) {
     )
   );
   console.log(
-    `If this was unintentional, check that you haven't mistakenly set it in your shell.`
+    'If this was unintentional, check that you haven\'t mistakenly set it in your shell.'
   );
   console.log(
     `Learn more here: ${chalk.yellow('https://cra.link/advanced-config')}`
@@ -75,7 +75,7 @@ checkBrowsers(paths.appPath, isInteractive)
     return choosePort(HOST, DEFAULT_PORT);
   })
   .then(port => {
-    if (port == null) {
+    if (port === null) {
       // We have not found a port.
       return;
     }

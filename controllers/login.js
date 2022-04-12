@@ -20,7 +20,7 @@ loginRouter.post('/', async (req, res, next) => {
     const passwordCorrect = await bcrypt.compare(password, user.passwordHash);
     if(!passwordCorrect) {
       const err = new Error('Incorrect password');
-      err.name = errorNames.IncorrectPassword;
+      err.name = ErrorNames.IncorrectPassword;
       throw err;
     }
 

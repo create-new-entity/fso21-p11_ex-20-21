@@ -39,7 +39,7 @@ const login = async (api, user) => {
 };
 
 const initializeDBWithDummyBlogs = async (api, token) => {
-  for (blog of dummyStuffs.dummyBlogs) {
+  for (let blog of dummyStuffs.dummyBlogs) {
     const newDummyBlog = {
       ...blog
     };
@@ -98,7 +98,7 @@ const mostLikes = (blogs) => {
     .value();
 };
 
-const dummy = (blogs) => {
+const dummy = () => {
   return 1;
 }
 

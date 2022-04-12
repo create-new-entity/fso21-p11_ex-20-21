@@ -3,7 +3,7 @@
 const miscellaneousRouter = require('express').Router();
 const utils = require('./utils');
 
-miscellaneousRouter.delete('/', async (req, res, next) => {
+miscellaneousRouter.delete('/', async (req, res) => {
   try {
     await utils.resetDatabase();
     res.status(200).end();

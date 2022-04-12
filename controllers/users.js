@@ -9,7 +9,7 @@ const userModel = require('./../models/user');
 
 usersRouter.get('/', async (req, res, next) => {
   try {
-    const blogFieldsToReturn = {title: 1, author: 1, url: 1, likes: 1, id: 1};
+    const blogFieldsToReturn = { title: 1, author: 1, url: 1, likes: 1, id: 1 };
     let users = await userModel.find({}).populate('blogs', blogFieldsToReturn);
     res.status(200).json(users);
   }
@@ -33,7 +33,7 @@ usersRouter.post('/', async (req, res, next) => {
       error.name = ErrorNames.PasswordMissingError;
       throw error;
     }
-  
+
     if(req.body.username.length < 3) {
       error = new Error('username is too short');
       error.name = ErrorNames.ShortUsernameError;
@@ -45,20 +45,20 @@ usersRouter.post('/', async (req, res, next) => {
       error.name = ErrorNames.ShortPasswordError;
       throw error;
     }
-  
+
     const newUserName = req.body.username;
     const newPassword = req.body.password;
     const newName = req.body.name;
-  
+
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(newPassword, saltRounds);
-  
+
     let newUser = {
       username: newUserName,
       passwordHash,
       name: newName
     };
-  
+
     newUser = await userModel(newUser).save();
     res.status(201).json({
       username: newUser.username,
@@ -71,9 +71,9 @@ usersRouter.post('/', async (req, res, next) => {
 });
 
 
-usersRouter.get('/userData', async (req, res) => {
+usersRouter.get('/userData', async (req, res, next) => {
   try {
-    const blogFieldsToReturn = {title: 1, author: 1, url: 1, likes: 1, id: 1};
+    const blogFieldsToReturn = { title: 1, author: 1, url: 1, likes: 1, id: 1 };
     let users = await userModel.find({}).populate('blogs', blogFieldsToReturn);
     users = users.map((user) => {
       return {
@@ -89,9 +89,9 @@ usersRouter.get('/userData', async (req, res) => {
   }
 });
 
-usersRouter.get('/userData/:id', async (req, res) => {
+usersRouter.get('/userData/:id', async (req, res, next) => {
   try {
-    const blogFieldsToReturn = {title: 1, id: 1};
+    const blogFieldsToReturn = { title: 1, id: 1 };
     const user = await userModel.findById(req.params.id).populate('blogs', blogFieldsToReturn);
     res.status(200).json(user);
   }
