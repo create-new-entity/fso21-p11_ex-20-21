@@ -17,3 +17,5 @@ jobs:
         run: npm install  
       - name: lint
         run: npm run eslint
+      - name: test api and frontend components
+        runt: npm run test
