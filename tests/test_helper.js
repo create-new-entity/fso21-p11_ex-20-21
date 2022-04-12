@@ -1,7 +1,30 @@
+const mongoose = require('mongoose');
 const userModel = require('./../models/user');
 const blogModel = require('./../models/blog');
 const dummyStuffs = require('./dummyStuffs');
+const config = require('./../utils/config');
+const logger = require('./../utils/logger');
 const _ = require('lodash');
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(config.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+    logger.info('DB connected')
+  }
+  catch (err) {
+    logger.error(err);
+  }
+};
+
+const closeDB = async () => {
+  try {
+    await mongoose.connection.close();
+    logger.info('DB closed')
+  }
+  catch (err) {
+    logger.error(err);
+  }
+};
 
 const resetDatabase = async () => {
   await blogModel.deleteMany({});
@@ -113,5 +136,7 @@ module.exports = {
   mostBlogs,
   createAUserAndInitializeDB,
   mostLikes,
-  login
+  login,
+  connectDB,
+  closeDB
 };

@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
 const supertest = require('supertest');
-
 
 const app = require('./../app');
 const TIMEOUT = 10000;
@@ -9,10 +7,17 @@ const helpers = require('./test_helper');
 
 const api = supertest(app);
 
+beforeAll(async () => {
+  await helpers.connectDB();
+});
+
+afterAll(async () => {
+  await helpers.closeDB();
+});
+
 beforeEach(async () => {
   await helpers.resetDatabase();
 });
-
 
 describe('API returns data in correct amount and in correct format.', () => {
 
@@ -288,9 +293,4 @@ describe('Other tests', () => {
     const result = helpers.mostLikes(blogs);
     expect(result).toEqual(targetAuthor);
   });
-});
-
-
-afterAll(async () => {
-  await mongoose.connection.close();
 });
