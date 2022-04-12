@@ -3,7 +3,7 @@ name: Hello World!
 on:
   push:
     branches:
-      - master
+      - ejected
 
 jobs:
   hello_world_job:
@@ -12,4 +12,3 @@ jobs:
       - name: Say hello
         run: |
           echo "Hello World!"
-          
