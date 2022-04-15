@@ -15,8 +15,6 @@ const connectDB = async () => {
       useCreateIndex: true
     };
     await mongoose.connect( config.DB_URL, options );
-    console.log('DB Connected....');
-    console.log(config.DB_URL);
   }
   catch (err) {
     logger.error(err);
@@ -41,7 +39,6 @@ const resetDatabase = async () => {
 const createAUserAndInitializeDB = async (api) => {
   await createADummyUser(api);
   const { token } = await login(api, dummyStuffs.dummyUsers[0]);
-  console.log('Token:', token);
   await initializeDBWithDummyBlogs(api, token);
   const response = await api.get('/api/blogs');
   return response.body;
@@ -66,9 +63,7 @@ const login = async (api, user) => {
       username: user.username,
       password: user.password
     });
-  console.log('user', user);
-  console.log('result: ', res.body);
-  return res.body  // { username, id, token }
+  return res.body;
 };
 
 const initializeDBWithDummyBlogs = async (api, token) => {
