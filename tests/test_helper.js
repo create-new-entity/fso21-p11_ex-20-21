@@ -66,6 +66,7 @@ const login = async (api, user) => {
       username: user.username,
       password: user.password
     });
+  console.log('user', user);
   return res.body  // { username, id, token }
 };
 
