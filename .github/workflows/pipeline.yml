@@ -40,7 +40,7 @@ jobs:
         with:
           browser: chrome
           headless: true
-          start: |
-            npm run start:for_e2e
-            npm run test:e2e
+          start: npm run start:for_e2e
           wait-on: http://localhost:3003
+          command: npm run test:e2e
+          
