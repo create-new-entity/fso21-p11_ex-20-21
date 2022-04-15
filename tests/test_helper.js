@@ -39,8 +39,8 @@ const resetDatabase = async () => {
 };
 
 const createAUserAndInitializeDB = async (api) => {
-  const dummyUser = await createADummyUser(api);
-  const { token } = await login(api, dummyUser);
+  await createADummyUser(api);
+  const { token } = await login(api, dummyStuffs.dummyUsers[0]);
   console.log('Token:', token);
   await initializeDBWithDummyBlogs(api, token);
   const response = await api.get('/api/blogs');
@@ -55,9 +55,8 @@ const getAllUsernamesFromDB = async () => {
 const createADummyUser = async (api) => {
   const dummyUsers = dummyStuffs.dummyUsers;
 
-  const res = await api.post('/api/users').send(dummyUsers[0]);
-  console.log('New user: ', res.body);
-  return dummyUsers[0];  // { name, username, password }
+  await api.post('/api/users').send(dummyUsers[0]);
+  return dummyUsers[0];
 };
 
 const login = async (api, user) => {
