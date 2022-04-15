@@ -8,11 +8,21 @@ on:
 jobs:
   ex_20_21:
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        mongodb-version: ['4.4']
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+          
       - name: npm install 
         run: npm install  
       - name: lint
