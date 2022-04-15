@@ -41,6 +41,7 @@ const resetDatabase = async () => {
 const createAUserAndInitializeDB = async (api) => {
   const dummyUser = await createADummyUser(api);
   const { token } = await login(api, dummyUser);
+  console.log('Token:', token);
   await initializeDBWithDummyBlogs(api, token);
   const response = await api.get('/api/blogs');
   return response.body;
