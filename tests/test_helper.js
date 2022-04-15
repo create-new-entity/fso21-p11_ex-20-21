@@ -55,7 +55,8 @@ const getAllUsernamesFromDB = async () => {
 const createADummyUser = async (api) => {
   const dummyUsers = dummyStuffs.dummyUsers;
 
-  await api.post('/api/users').send(dummyUsers[0]);
+  const res = await api.post('/api/users').send(dummyUsers[0]);
+  console.log('New user: ', res.body);
   return dummyUsers[0];  // { name, username, password }
 };
 
