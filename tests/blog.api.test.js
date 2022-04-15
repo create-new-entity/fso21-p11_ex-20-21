@@ -1,7 +1,7 @@
 const supertest = require('supertest');
 
 const app = require('./../app');
-const TIMEOUT = 20000;
+const TIMEOUT = 30000;
 // const dummyStuffs = require('./dummyStuffs');
 const helpers = require('./test_helper');
 
@@ -23,6 +23,7 @@ describe('API returns data in correct amount and in correct format.', () => {
 
   test('API return correct amount of data', async () => {
     const blogs = await helpers.createAUserAndInitializeDB(api);
+    console.log(blogs);
     expect(blogs.length).toBe(6);
   }, TIMEOUT);
 
