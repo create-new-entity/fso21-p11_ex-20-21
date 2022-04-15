@@ -8,8 +8,13 @@ const _ = require('lodash');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(config.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-    logger.info('DB connected')
+    const options = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true
+    };
+    await mongoose.connect( config.DB_URL, options );
   }
   catch (err) {
     logger.error(err);
