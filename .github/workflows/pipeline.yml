@@ -31,11 +31,12 @@ jobs:
       
       - name: npm install 
         run: npm install
-         
+
       - name: lint
         run: npm run eslint
       
       - name: Test api endpoints and frontend components
         env:
           TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
+          SECRET: ${{ secrets.SECRET }}
         run: npm run test
