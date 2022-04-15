@@ -17,17 +17,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-
-      # - name: Start MongoDB
-      #   uses: supercharge/mongodb-github-action@1.6.0
-      #   with:
-      #     mongodb-version: ${{ matrix.mongodb-version }}
-      
-      # - name: Run mongod
-      #   run: sudo service mongod start
-
-      # - name: Check MongoDB status
-      #   run: service mongod status
       
       - name: npm install 
         run: npm install
