@@ -23,7 +23,7 @@ describe('API returns data in correct amount and in correct format.', () => {
 
   test('API return correct amount of data', async () => {
     const blogs = await helpers.createAUserAndInitializeDB(api);
-    console.log(blogs);
+    console.log(blogs)
     expect(blogs.length).toBe(6);
   }, TIMEOUT);
 
