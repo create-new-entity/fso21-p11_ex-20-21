@@ -28,10 +28,14 @@ jobs:
 
       # - name: Check MongoDB status
       #   run: service mongod status
-
+      
       - name: npm install 
-        run: npm install  
+        run: npm install
+         
       - name: lint
         run: npm run eslint
-      - name: test api and frontend components
+      
+      - name: Test api endpoints and frontend components
+        env:
+          TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
         run: npm run test
