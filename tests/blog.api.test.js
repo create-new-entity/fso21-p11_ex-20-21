@@ -1,7 +1,7 @@
 const supertest = require('supertest');
 
 const app = require('./../app');
-const TIMEOUT = 60000;
+const TIMEOUT = 10000;
 const dummyStuffs = require('./dummyStuffs');
 const helpers = require('./test_helper');
 
