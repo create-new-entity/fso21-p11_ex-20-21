@@ -15,6 +15,8 @@ const connectDB = async () => {
       useCreateIndex: true
     };
     await mongoose.connect( config.DB_URL, options );
+    console.log('DB Connected....');
+    console.log(config.DB_URL);
   }
   catch (err) {
     logger.error(err);
