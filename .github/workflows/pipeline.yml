@@ -22,6 +22,9 @@ jobs:
         uses: supercharge/mongodb-github-action@1.6.0
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
+      
+      - name: Run mongod
+        run: sudo service mongod start
         
       - name: Check MongoDB status
         run: service mongod status
