@@ -1,7 +1,7 @@
 const supertest = require('supertest');
 
 const app = require('./../app');
-const TIMEOUT = 30000;
+const TIMEOUT = 60000;
 // const dummyStuffs = require('./dummyStuffs');
 const helpers = require('./test_helper');
 
@@ -16,7 +16,6 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  jest.setTimeout(TIMEOUT);
   await helpers.resetDatabase();
 });
 
@@ -26,7 +25,7 @@ describe('API returns data in correct amount and in correct format.', () => {
     const blogs = await helpers.createAUserAndInitializeDB(api);
     console.log(blogs);
     expect(blogs.length).toBe(6);
-  });
+  }, TIMEOUT);
 
   // test('API returns data in JSON format', async () => {
 
