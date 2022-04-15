@@ -67,7 +67,7 @@ const login = async (api, user) => {
       password: user.password
     });
   console.log('user', user);
-  console.log('result: ', res.body);
+  console.log('result: ', res);
   return res.body  // { username, id, token }
 };
 
@@ -76,11 +76,10 @@ const initializeDBWithDummyBlogs = async (api, token) => {
     const newDummyBlog = {
       ...blog
     };
-    const res = await api
+    await api
       .post('/api/blogs')
       .send(newDummyBlog)
       .set('Authorization', 'bearer ' + token);
-    console.log(res.body);
   }
 };
 
