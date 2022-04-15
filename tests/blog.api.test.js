@@ -2,7 +2,7 @@ const supertest = require('supertest');
 
 const app = require('./../app');
 const TIMEOUT = 3000;
-const dummyStuffs = require('./dummyStuffs');
+// const dummyStuffs = require('./dummyStuffs');
 const helpers = require('./test_helper');
 
 const api = supertest(app);
