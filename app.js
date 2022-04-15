@@ -15,7 +15,6 @@ const testingRouter = require('./controllers/testing');
 
 
 logger.info('Connecting to DB');
-console.log('DB URL:', config.DB_URL);
 mongoose
   .connect(config.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => logger.info('DB connected'))
