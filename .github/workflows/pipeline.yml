@@ -22,7 +22,8 @@ jobs:
         uses: supercharge/mongodb-github-action@1.6.0
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
-          
+        run: service mongod status
+
       - name: npm install 
         run: npm install  
       - name: lint
