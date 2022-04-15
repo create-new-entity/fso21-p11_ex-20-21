@@ -1,6 +1,6 @@
 const resetEverythingURL = 'http://localhost:3003/api/testing/reset';
 const userURL = 'http://localhost:3003/api/users';
-const frontEndURL = 'http://localhost:3000';
+const frontEndURL = 'http://localhost:3003';
 const NOTIFICATION_TIMEOUT = 5000;
 
 const user = {
