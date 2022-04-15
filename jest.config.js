@@ -17,7 +17,6 @@ module.exports = {
     '<rootDir>/tests/*.api.test.js',
     '<rootDir>/frontend/src/components/*.test.js'
   ],
-  'testRunner': 'C:\\Users\\Pavel\\Desktop\\fso21-p11_ex-20-21\\frontend\\node_modules\\jest-circus\\runner.js',
   'transform': {
     '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
     '^.+\\.css$': '<rootDir>/config/jest/cssTransform.js',
