@@ -41,6 +41,7 @@ const createAUserAndInitializeDB = async (api) => {
   const { token } = await login(api, dummyStuffs.dummyUsers[0]);
   await initializeDBWithDummyBlogs(api, token);
   const response = await api.get('/api/blogs');
+  console.log('blogs: ', response.body);
   return response.body;
 };
 
