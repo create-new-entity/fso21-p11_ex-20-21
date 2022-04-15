@@ -23,6 +23,9 @@ jobs:
 
       - name: lint
         run: npm run eslint
+
+      - name: Build
+        run: npm run build
       
       - name: Test api endpoints and frontend components
         env:
@@ -30,10 +33,7 @@ jobs:
           SECRET: ${{ secrets.SECRET }}
           PORT: ${{ secrets.PORT }}
         run: npm run test
-
-      - name: Build
-        run: npm run build
-
+        
       - name: E2E tests
         env:
           TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
@@ -42,6 +42,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           start: npm run start:for_e2e
-          wait-on: http://localhost:3003
+          wait-on: http://localhost:${{ env.PORT }}
           command: npm run test:e2e
 
