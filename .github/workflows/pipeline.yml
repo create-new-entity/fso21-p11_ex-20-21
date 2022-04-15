@@ -36,8 +36,6 @@ jobs:
         with:
           browser: chrome
           headless: true
-          env:
-            PORT: ${{ secrets.PORT }}
           start: npm run start:for_e2e
           wait-on: 'http://localhost:${{ env.PORT }}'
           command: npm run test:e2e
