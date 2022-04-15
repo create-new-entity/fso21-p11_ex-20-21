@@ -73,10 +73,11 @@ const initializeDBWithDummyBlogs = async (api, token) => {
     const newDummyBlog = {
       ...blog
     };
-    await api
+    const res = await api
       .post('/api/blogs')
       .send(newDummyBlog)
       .set('Authorization', 'bearer ' + token);
+    console.log(res.body);
   }
 };
 
