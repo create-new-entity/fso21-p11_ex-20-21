@@ -7,15 +7,17 @@ const helpers = require('./test_helper');
 
 const api = supertest(app);
 
-beforeAll(async () => {
-  await helpers.connectDB();
-});
+// beforeAll(async () => {
+//   await helpers.connectDB();
+// });
 
-afterAll(async () => {
+afterEach(async () => {
+  await helpers.resetDatabase();
   await helpers.closeDB();
 });
 
 beforeEach(async () => {
+  await helpers.connectDB();
   await helpers.resetDatabase();
 });
 
