@@ -5,6 +5,7 @@ module.exports = {
     '.',
     './frontend/src'
   ],
+  testTimeout: 60000,
   'collectCoverageFrom': [
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.ts'
