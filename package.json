@@ -19,7 +19,7 @@
     "eslint": "eslint .",
 
     "cypress:open": "cypress open",
-    "start:for_e2e": "cross-env NODE_ENV=test nodemon index.js",
+    "start:for_e2e": "cross-env NODE_ENV=test PORT=3003 nodemon index.js",
     "test:e2e": "cypress run --spec \"cypress/integration/*.spec.js\""
   },
   "eslintConfig": {
