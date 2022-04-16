@@ -1,3 +1,5 @@
+name: Periodic Health Check
+
 on:
   schedule:
     - cron: '*/2 * * * *'
