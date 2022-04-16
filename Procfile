@@ -1,1 +1,1 @@
-web: npm run break_this_shit
+web: npm run start
