@@ -71,4 +71,19 @@ jobs:
           HD_DB_URL: ${{ secrets.DB_URL }}
           HD_SECRET: ${{ secrets.SECRET }}
           HD_PORT: ${{ secrets.PORT }}
+  
+  tag_release:
+    needs: [ex_20_21]
+    - name: Set CURRENT_BRANCH variable
+        run: echo "::set-output name=CURRENT_BRANCH::$(echo ${GITHUB_REF##*/})"
+        id: set_current_branch_step
+        env:
+          GITHUB_REF: ${{ github.ref }}
+    
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.33.0
+      if: ${{ steps.set_current_branch_step.outputs.CURRENT_BRANCH == 'main' == true }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEFAULT_BUMP: patch
 
