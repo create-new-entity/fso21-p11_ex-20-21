@@ -3,7 +3,12 @@ name: ex_20_21
 on:
   push:
     branches:
+      - main
       - ejected
+  pull_request:
+    types: [opened]
+    branches:
+      - main
 
 jobs:
   ex_20_21:
@@ -17,6 +22,12 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+
+      - name: Set CURRENT_BRANCH variable
+        run: echo "::set-output name=CURRENT_BRANCH::$(echo ${GITHUB_REF##*/})"
+        id: set_current_branch_step
+        env:
+          GITHUB_REF: ${{ github.ref }}
       
       - name: NPM Install
         run: npm install
@@ -46,6 +57,7 @@ jobs:
           command: npm run test:e2e
         
       - name: Deploying to Heroku
+        if: ${{ steps.set_current_branch_step.outputs.CURRENT_BRANCH == 'main' == true }}
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
