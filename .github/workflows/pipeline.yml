@@ -29,29 +29,29 @@ jobs:
       - name: NPM Install
         run: npm install
 
-      # - name: Lint
-      #   run: npm run eslint
+      - name: Lint
+        run: npm run eslint
 
       - name: Build
         run: npm run build
       
-      # - name: Test API endpoints and Frontend components
-      #   env:
-      #     TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
-      #     SECRET: ${{ secrets.SECRET }}
-      #     PORT: ${{ secrets.PORT }}
-      #   run: npm run test
+      - name: Test API endpoints and Frontend components
+        env:
+          TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
+          SECRET: ${{ secrets.SECRET }}
+          PORT: ${{ secrets.PORT }}
+        run: npm run test
         
-      # - name: E2E tests
-      #   env:
-      #     TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
-      #     SECRET: ${{ secrets.SECRET }}
-      #     PORT: ${{ secrets.PORT }}
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     start: npm run start:for_e2e
-      #     wait-on: http://localhost:${{ env.PORT }}
-      #     command: npm run test:e2e
+      - name: E2E tests
+        env:
+          TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
+          SECRET: ${{ secrets.SECRET }}
+          PORT: ${{ secrets.PORT }}
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm run start:for_e2e
+          wait-on: http://localhost:${{ env.PORT }}
+          command: npm run test:e2e
         
       - name: Deploying to Heroku
         if: ${{ steps.set_current_branch_step.outputs.CURRENT_BRANCH == 'main' && contains(toJson(github.event.commits[0].message), '#skip') != true }}
