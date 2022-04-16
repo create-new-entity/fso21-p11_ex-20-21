@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '30 * * * *'
+    - cron: '50 * * * *'
 
 jobs:
   periodic_health_check:
