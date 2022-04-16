@@ -7,7 +7,6 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-
     "test:backend": "cross-env NODE_ENV=test END_ENV=back jest --verbose ./tests --runInBand",
     "test:frontend": "cross-env NODE_ENV=test END_ENV=front jest --verbose ./frontend/src/components --runInBand",
     "test:bothend": "npm run test:backend && npm run test:frontend",
@@ -47,7 +46,6 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
-    "cross-env": "^7.0.3",
     "cypress": "^8.3.0",
     "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-jest": "^24.4.0",
@@ -57,6 +55,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "cross-env": "^7.0.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
