@@ -68,6 +68,30 @@ jobs:
           HD_DB_URL: ${{ secrets.DB_URL }}
           HD_SECRET: ${{ secrets.SECRET }}
           HD_PORT: ${{ secrets.PORT }}
+      
+      - name: Notify Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          details: Everything is fine.
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      
+      - name: Notify Failure
+          uses: rjstone/discord-webhook-notify@v1
+          if: failure()
+          with:
+            severity: error
+            details: Oh oh...
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+      - name: Test Cancelled
+          uses: rjstone/discord-webhook-notify@v1
+          if: cancelled()
+          with:
+            severity: warn
+            details: Meh...cancelled
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
   
   tag_release:
     runs-on: ubuntu-20.04
@@ -86,4 +110,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
           DRY_RUN: true
+
+  
 
