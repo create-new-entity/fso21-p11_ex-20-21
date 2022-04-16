@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
@@ -85,7 +84,7 @@ jobs:
           details: Oh oh...
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
-      - name: Test Cancelled
+      - name: Notify Cancellation
         uses: rjstone/discord-webhook-notify@v1
         if: cancelled()
         with:
