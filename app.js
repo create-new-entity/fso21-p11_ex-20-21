@@ -41,6 +41,15 @@ app.use('/api/miscellaneous', miscellaneousRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/blogs', middleware.tokenExtractor, middleware.userExtractor, blogsRouter);
 app.use('/api/users', usersRouter);
+
+app.get('/api/health', (req, res) => {
+  res.send('ok');
+})
+
+app.get('/api/version', (req, res) => {
+  res.send('1');
+})
+
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 

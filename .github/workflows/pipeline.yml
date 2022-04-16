@@ -50,6 +50,8 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "fso21-p11"
           heroku_email: "imran.pavel@gmail.com"
+          healthcheck: "https://fso21-p11.herokuapp.com/api/health"
+          checkstring: "ok"
         env:
           HD_HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HD_DB_URL: ${{ secrets.DB_URL }}
