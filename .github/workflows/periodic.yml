@@ -1,0 +1,12 @@
+on:
+  schedule:
+    - cron: '20 * * * *'
+
+jobs:
+  periodic_health_check:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check the deployed app health
+        uses: jtalk/url-health-check-action@9f9a163f533fcbf8b3d9fe1bf5458e8c23502698
+        with:
+          url: https://${{ secrets.HEROKU_APP_NAME }}.herokuapp.com/api/health
