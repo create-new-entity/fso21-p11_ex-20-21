@@ -45,3 +45,12 @@ jobs:
           wait-on: http://localhost:${{ env.PORT }}
           command: npm run test:e2e
 
+      - name: Deploying to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "fso21-p11"
+          heroku_email: "imran.pavel@gmail.com"
+
