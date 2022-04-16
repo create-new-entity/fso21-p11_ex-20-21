@@ -13,9 +13,6 @@ on:
 jobs:
   ex_20_21:
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        mongodb-version: ['4.4']
     steps:
       - uses: actions/checkout@v3
 
@@ -73,6 +70,7 @@ jobs:
           HD_PORT: ${{ secrets.PORT }}
   
   tag_release:
+    runs-on: ubuntu-20.04
     needs: [ex_20_21]
     - name: Set CURRENT_BRANCH variable
         run: echo "::set-output name=CURRENT_BRANCH::$(echo ${GITHUB_REF##*/})"
