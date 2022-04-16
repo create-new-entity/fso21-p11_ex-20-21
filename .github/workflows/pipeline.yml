@@ -74,10 +74,10 @@ jobs:
     needs: [ex_20_21]
     steps:
       - name: Set CURRENT_BRANCH variable
-          run: echo "::set-output name=CURRENT_BRANCH::$(echo ${GITHUB_REF##*/})"
-          id: set_current_branch_step
-          env:
-            GITHUB_REF: ${{ github.ref }}
+        run: echo "::set-output name=CURRENT_BRANCH::$(echo ${GITHUB_REF##*/})"
+        id: set_current_branch_step
+        env:
+          GITHUB_REF: ${{ github.ref }}
       
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.33.0
