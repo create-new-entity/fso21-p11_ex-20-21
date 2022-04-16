@@ -10,6 +10,8 @@ loginRouter.post('/', async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
 
+    console.log(username, password);
+
     const user = await User.findOne({ username });
     if(!user) {
       const err = new Error('Incorrect username');
