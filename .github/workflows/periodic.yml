@@ -1,8 +1,11 @@
 name: Periodic Health Check
 
 on:
-  schedule:
-    - cron: '*/2 * * * *'
+  # schedule:
+  #   - cron: '*/2 * * * *'
+  puth:
+    branches:
+      - ejected
 
 jobs:
   periodic_health_check:
