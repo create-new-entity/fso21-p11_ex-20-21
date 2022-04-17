@@ -1,0 +1,114 @@
+name: ex_20_21
+
+on:
+  push:
+    branches:
+      - main
+      - ejected
+  pull_request:
+    types: [opened]
+    branches:
+      - main
+
+jobs:
+  ex_20_21:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Set CURRENT_BRANCH variable
+        run: echo "::set-output name=CURRENT_BRANCH::$(echo ${GITHUB_REF##*/})"
+        id: set_current_branch_step
+        env:
+          GITHUB_REF: ${{ github.ref }}
+      
+      - name: NPM Install
+        run: npm install
+
+      - name: Lint
+        run: npm run eslint
+
+      - name: Build
+        run: npm run build
+      
+      - name: Test API endpoints and Frontend components
+        env:
+          TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
+          SECRET: ${{ secrets.SECRET }}
+          PORT: ${{ secrets.PORT }}
+        run: npm run test
+        
+      - name: E2E tests
+        env:
+          TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
+          SECRET: ${{ secrets.SECRET }}
+          PORT: ${{ secrets.PORT }}
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm run start:for_e2e
+          wait-on: http://localhost:${{ env.PORT }}
+          command: npm run test:e2e
+        
+      - name: Deploying to Heroku
+        if: ${{ steps.set_current_branch_step.outputs.CURRENT_BRANCH == 'main' && contains(toJson(github.event.commits[0].message), '#skip') != true }}
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "fso21-p11"
+          heroku_email: "imran.pavel@gmail.com"
+          healthcheck: "https://fso21-p11.herokuapp.com/api/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
+        env:
+          HD_HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HD_DB_URL: ${{ secrets.DB_URL }}
+          HD_SECRET: ${{ secrets.SECRET }}
+          HD_PORT: ${{ secrets.PORT }}
+      
+      - name: Notify Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          details: Everything is fine.
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      
+      - name: Notify Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Oh oh...
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+      - name: Notify Cancellation
+        uses: rjstone/discord-webhook-notify@v1
+        if: cancelled()
+        with:
+          severity: warn
+          details: Meh...cancelled
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+  
+  tag_release:
+    runs-on: ubuntu-20.04
+    needs: [ex_20_21]
+    steps:
+      - name: Set CURRENT_BRANCH variable
+        run: echo "::set-output name=CURRENT_BRANCH::$(echo ${GITHUB_REF##*/})"
+        id: set_current_branch_step
+        env:
+          GITHUB_REF: ${{ github.ref }}
+      
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.33.0
+        if: ${{ steps.set_current_branch_step.outputs.CURRENT_BRANCH == 'main' && contains(toJson(github.event.commits[0].message), '#skip') != true }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          DRY_RUN: true
+
+  
+
